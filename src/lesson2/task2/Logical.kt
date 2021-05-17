@@ -3,6 +3,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import kotlin.math.*
 
 /**
  * Пример
@@ -33,7 +34,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = x1 == x2 || y1 == y2 || abs(x1 - x2) == abs(y1 - y2)
 
 
 /**
@@ -42,7 +43,18 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int = TODO()
+fun daysInMonth(month: Int, year: Int): Int {
+    return if (month in arrayOf(1, 3, 5, 7, 8, 10, 12))
+        31
+    else if (month in arrayOf(4, 6, 9, 11))
+        30
+    else {
+        if (year % 4 != 0 || (year % 4 == 0 && year % 100 == 0 && year % 400 != 0))
+            28
+        else
+            29
+    }
+}
 
 /**
  * Средняя
@@ -54,7 +66,8 @@ fun daysInMonth(month: Int, year: Int): Int = TODO()
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean = TODO()
+): Boolean = x1 - r1 >= x2 - r2 && x1 + r1 <= x2 + r2 && y1 - r1 >= y2 - r2 && y1 + r1 <= y2 + r2
+// данная задача решена неверно
 
 /**
  * Средняя
@@ -65,4 +78,13 @@ fun circleInside(
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    var brick_max = max(a, b)
+    brick_max = max(brick_max, c)
+    var brick_min = min(a, b)
+    brick_min = min(brick_min, c)
+    val brick_sr = a + b + c - brick_max - brick_min
+    val hole_min = min(r, s)
+    val hole_max = max(r, s)
+    return brick_sr <= hole_max && brick_min <= hole_min
+}
